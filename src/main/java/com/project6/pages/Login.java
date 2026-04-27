@@ -12,7 +12,6 @@ public class Login {
     @FindBy (id="email")
     private WebElement emailField; //input[@id='email']
 
-
     @FindBy (id="password")
     private WebElement passwordField; //input[@id='password']
 

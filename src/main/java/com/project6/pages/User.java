@@ -19,10 +19,10 @@ public class User {
     @FindBy (xpath="//button[normalize-space()='Export']")
     private WebElement exportButton; //button[@type='submit']
 
-    @FindBy (xpath="//tbody/tr[6]/td[7]/div[1]/div[1]/button[1]//*[name()='svg']")
+    @FindBy (xpath="(//button[contains(@class,'MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge')])[1]")
     private WebElement titikMenu; //div[@class='alert alert-danger']
 
-    @FindBy (xpath="//body/div[8]/div[3]/ul[1]/li[2]")
+    @FindBy (xpath="(//li[text()=\"Edit\"])[1]")
     private WebElement editMenu; //div[@class='MuiBox-root css-16
 
     @FindBy(xpath = "//input[@name='nik']") // Sesuaikan atribut 'name' atau 'id' dengan aslinya
