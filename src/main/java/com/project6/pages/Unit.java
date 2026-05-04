@@ -13,11 +13,14 @@ public class Unit {
     @FindBy (xpath ="//p[normalize-space()='Unit']")
     private WebElement unitMenu; 
 
-    @FindBy (xpath= "//button[normalize-space()='Tambahkan']")
+    @FindBy (xpath= "(//button[contains(@class,'MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium button-add')])[1]")
     private WebElement addUnitButton; //button[@type='submit']")
 
+    @FindBy (xpath="//input[@id='name']")
+    private WebElement fieldName;
+
     @FindBy (xpath = "//input[@name='locationType']")
-    private WebElement fieldLocationType;
+    private WebElement checkboxLocationType;
 
     @FindBy(xpath = "//input[@id='calendar']") 
     private WebElement fieldCalendar;
@@ -34,9 +37,24 @@ public class Unit {
     @FindBy (xpath="//div[@id='ot_upload']")
     private WebElement fieldOTUpload;
 
-    @FindBy (xpath="//button[normalize-space()='Tambah']")
+    @FindBy (xpath="(//button[contains(@class,'MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium')])[3]")
     private WebElement submitAddUnitButton;
 
+    @FindBy (xpath="//button[normalize-space()='Edit']")
+    private WebElement editUnitButton;
+
+    @FindBy (xpath="(//button[contains(@class,'MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium')])[1]")
+    private WebElement batalButtonUnit;
+
+    @FindBy (xpath="(//button[contains(@class,'MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall btn-search')])[1]")
+    private WebElement searchButtonUnit;
+
+    @FindBy (xpath="(//button[contains(@class,'MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textWarning MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textWarning MuiButton-sizeSmall MuiButton-textSizeSmall btn-reset')])[1]")
+    private WebElement resetButtonUnit;
+
+    @FindBy (xpath="(//input[contains(@class,'MuiInputBase-input')])[1]")
+    private WebElement fieldSearchUnit;
+   
     public void clickUnitMenu() {
         unitMenu.click();
     }
@@ -45,9 +63,13 @@ public class Unit {
         addUnitButton.click();
     }
 
-    public void setFieldLocationType(String locationType) {
-        fieldLocationType.sendKeys(locationType);
+    public void setFieldName(String name) {
+        fieldName.sendKeys(name);
     }
+
+    public void clickCheckboxLocationType() {
+        checkboxLocationType.click();
+    }   
 
     public void setFieldCalendar(String calendar) {
         fieldCalendar.sendKeys(calendar);
@@ -61,7 +83,6 @@ public class Unit {
         fieldOTReason.sendKeys(otReason);
     }
 
-
     public void setFieldMaxDayOT(String maxDayOT) {
         fieldMaxDayOT.sendKeys(maxDayOT);
     }
@@ -74,19 +95,24 @@ public class Unit {
         submitAddUnitButton.click();
     }
 
+    public void clickEditUnitButton() {
+        editUnitButton.click();
+    }
 
-    // Contoh method gabungan: Masuk ke halaman edit user
-    public void addUnit() {
+    public void clickBatalButtonUnit() {
+        batalButtonUnit.click();
+    }
+    
+    public void clickSearchButtonUnit() {
+        searchButtonUnit.click();
+    }
 
-        unitMenu.click();
-        addUnitButton.click();
-        fieldLocationType.sendKeys("Office");
-        fieldCalendar.sendKeys("2024");
-        fieldUnitLeave.sendKeys("12");
-        fieldOTReason.sendKeys("Work from home");
-        fieldMaxDayOT.sendKeys("5");
-        fieldOTUpload.sendKeys("Yes");
-        submitAddUnitButton.click();
+    public void clickResetButtonUnit() {
+        resetButtonUnit.click();
+    }
+
+    public String getSearchResultNameUnit() {
+        return fieldSearchUnit.getAttribute("value");
     }
 }
 

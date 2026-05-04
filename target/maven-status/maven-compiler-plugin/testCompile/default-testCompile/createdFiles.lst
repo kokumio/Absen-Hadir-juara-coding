@@ -1,4 +1,7 @@
-com\project6\UserExportTest.class
-com\project6\EditUser.class
 com\project6\TestRunner.class
+com\project6\UserMonitoring\SearchNameMon.class
+com\project6\Unit\UnitSteps.class
+com\project6\UserSteps.class
 com\project6\LoginTest.class
+com\project6\UserMonitoring\UserMonitoringSteps.class
+com\project6\AbsenPoint\AddAbsenPoint.class

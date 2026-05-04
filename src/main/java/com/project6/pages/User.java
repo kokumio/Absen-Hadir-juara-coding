@@ -1,76 +1,174 @@
 package com.project6.pages;
 
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.By;
+import java.time.Duration;
 
 public class User {
+    
+    private WebDriver driver; 
+    private WebDriverWait wait;
+
     public User (WebDriver driver) {
+        this.driver = driver; 
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy (xpath = "//p[contains(text(), 'Management')]")
-    private WebElement managementMenu; //input[@id='email']
+    @FindBy (xpath ="//*[text()='Management']")
+    private WebElement managementMenu;
 
     @FindBy (xpath="//p[contains(text(),'User')]")
-    private WebElement userMenu; //input[@id='password']
+    private WebElement userMenu;
 
     @FindBy (xpath="//button[normalize-space()='Export']")
-    private WebElement exportButton; //button[@type='submit']
+    private WebElement exportButton;
 
-    @FindBy (xpath="(//button[contains(@class,'MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge')])[1]")
-    private WebElement titikMenu; //div[@class='alert alert-danger']
+    // Gunakan locator ini secara konsisten
+    @FindBy (xpath="(//button[contains(@class,'MuiIconButton-sizeLarge')])[6]")
+    private WebElement titikMenu;
 
-    @FindBy (xpath="(//li[text()=\"Edit\"])[1]")
-    private WebElement editMenu; //div[@class='MuiBox-root css-16
+    @FindBy (xpath="(//li[@role='menuitem' and contains(., 'Edit')])[3]") 
+    private WebElement editMenu;
 
-    @FindBy(xpath = "//input[@name='nik']") // Sesuaikan atribut 'name' atau 'id' dengan aslinya
+    @FindBy(xpath = "//input[@name='nik']") 
     private WebElement fieldNIK;
 
     @FindBy (id="submit")
-    private WebElement saveEditMenu; //div[@class='MuiBox-root css-16
+    private WebElement saveEditMenu;
 
+    @FindBy (xpath="(//input[@id='search'])[1]")
+    private WebElement searchField;
 
-    // Method untuk klik menu Management
+    @FindBy (xpath="//button[normalize-space()='Search']")
+    private WebElement searchButton;
+
+    @FindBy (xpath="(//h5[contains(@class,'MuiTypography-root')])[3]")
+    private WebElement txtSearchName;
+
+    @FindBy (xpath="(//button[contains(@class,'MuiButtonBase-root')])[6]")
+    private WebElement filterButton;
+
+    @FindBy (xpath= "//button[contains(.,'Batal')] | //span[contains(.,'Batal')]/parent::button")
+    private WebElement batalButtonFilterUser;
+
+    @FindBy(xpath = "//button[contains(.,'Reset')]")
+    private WebElement resetButtonUser;
+
+    // --- METHODS ---
+
     public void clickManagementMenu() {
+        WebDriverWait wait = new WebDriverWait(this.driver, Duration.ofSeconds(15));
+        wait.until(ExpectedConditions.visibilityOf(managementMenu));
         managementMenu.click();
     }
 
-    // Method untuk klik menu User
     public void clickUserMenu() {
+        WebDriverWait wait = new WebDriverWait(this.driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(userMenu));
         userMenu.click();
     }
 
-    // Method untuk klik tombol Export
     public void clickExportButton() {
         exportButton.click();
     }
 
-    // Method untuk klik titik tiga (menu aksi di tabel)
     public void clickTitikMenu() {
-        titikMenu.click();
+        WebDriverWait wait = new WebDriverWait(this.driver, Duration.ofSeconds(15));
+        
+        // 1. Tunggu elemen hadir di DOM
+        WebElement btnTitik = wait.until(ExpectedConditions.presenceOfElementLocated(
+            By.xpath("(//button[contains(@class,'MuiIconButton-sizeLarge')])[5]")
+        ));
+
+        // 2. Scroll ke elemen agar masuk ke viewport (membantu stabilitas)
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", btnTitik);
+        
+        // 3. Klik menggunakan JS karena sering terhalang ikon panah (chevron)
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].click();", btnTitik);
+        
+        // 4. Tunggu sampai menu edit benar-benar muncul sebelum lanjut
+        wait.until(ExpectedConditions.visibilityOf(editMenu));
     }
 
-    // Method untuk klik opsi Edit
     public void clickEditMenu() {
-        editMenu.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        // Pastikan menu edit bisa diklik
+        wait.until(ExpectedConditions.elementToBeClickable(editMenu)).click();
     }
 
-        public void clickSaveEditMenu() {
+    public void clickSaveEditMenu() {
         saveEditMenu.click();
     }
 
-        public void clearFieldNIK() {
-        fieldNIK.clear(); // atau fieldNIK.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
+    public void clearFieldNIK() {
+        fieldNIK.clear();
     }
 
-    // Contoh method gabungan: Masuk ke halaman edit user
-    public void goToEditUser() {
-        managementMenu.click();
-        userMenu.click();
-        titikMenu.click();
-        editMenu.click();
-        saveEditMenu.click();
+    public void inputSearchName(String searchQuery) {
+        searchField.clear();
+        searchField.sendKeys(searchQuery);
+    }
+
+    public void clickButtonSearch() {
+        searchButton.click();
+    }
+
+    public String getTxtSearchName() {
+        return txtSearchName.getText();
+    }
+
+    public void clickFilterButton() {
+        filterButton.click();
+    }
+
+  public void clickBatalButtonFilterUser() {
+    try {
+        By locator = By.xpath("//button[contains(.,'Batal')] | //span[contains(.,'Batal')]/parent::button");
+
+        // 1. Tunggu element muncul
+        WebElement el = wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+
+        // 2. Scroll ke tengah layar
+        ((JavascriptExecutor) driver).executeScript(
+            "arguments[0].scrollIntoView({block: 'center'});", el
+        );
+
+        // 3. Tunggu benar-benar clickable
+        wait.until(ExpectedConditions.elementToBeClickable(el));
+
+        // 4. Klik (pakai JS biar aman dari overlay)
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", el);
+
+        // 5. Tunggu hilang (modal ketutup)
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+
+        System.out.println("Berhasil klik tombol Batal.");
+    } catch (Exception e) {
+        System.err.println("Gagal klik tombol Batal: " + e.getMessage());
+        throw e;
+    }
+}
+
+    // Di dalam class User.java
+    public void clickReset() {
+    WebElement resetBtn = driver.findElement(By.xpath("//button[contains(.,'Reset')]"));
+    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", resetBtn);
+    }
+
+    public void clickResetButtonUser() {
+        resetButtonUser.click();
+    }
+
+    public String getSearchFieldValue() {
+        return searchField.getAttribute("value");
     }
 }
