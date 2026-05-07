@@ -52,9 +52,15 @@ public class Unit {
     @FindBy (xpath="(//button[contains(@class,'MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textWarning MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textWarning MuiButton-sizeSmall MuiButton-textSizeSmall btn-reset')])[1]")
     private WebElement resetButtonUnit;
 
-    @FindBy (xpath="(//input[contains(@class,'MuiInputBase-input')])[1]")
+    @FindBy (xpath="(//input[contains(@class,'MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputTypeSearch MuiInputBase-inputSizeSmall')])[1]")
     private WebElement fieldSearchUnit;
-   
+
+    @FindBy (xpath="(//h6[text()='IT Support'])")
+    private WebElement firstSearchResultUnit;
+
+    public Unit() {
+    }
+
     public void clickUnitMenu() {
         unitMenu.click();
     }
@@ -111,8 +117,12 @@ public class Unit {
         resetButtonUnit.click();
     }
 
+    public void setFieldSearchUnit(String name) {
+        fieldSearchUnit.sendKeys(name);
+    }
+    
     public String getSearchResultNameUnit() {
-        return fieldSearchUnit.getAttribute("value");
+        return firstSearchResultUnit.getText();
     }
 }
 

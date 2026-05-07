@@ -8,9 +8,9 @@ Feature: Search name Absen Point
     
     # 2. Masuk ke halaman User
     And user click menu management
-    And user click user absen point menu
+    And user click absen point menu
     
     # 3. Baru lakukan pencarian (Search)
-    And user input field search name absen point
+    And user input field search name absen point "DIKA Banjarmasin90"
     And user click search absen button
-    And user should see search absen result with name "Izzah Luthfiah"
+    And user should see search absen result with name "DIKA Banjarmasin90"

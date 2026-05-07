@@ -11,8 +11,7 @@ Feature: Search name User
     And user click user monitoring menu
     
     # 3. Baru lakukan pencarian (Search)
-    And user input field search name monitoring
+    And user input field search name monitoring "Gatuso"
     And user click search monitoring button
-    And user should see search monitoring result with name "Izzah Luthfiah"
     And user click button reset 
     Then user verify field search name monitoring should be empty

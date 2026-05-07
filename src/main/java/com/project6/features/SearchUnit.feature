@@ -6,6 +6,6 @@ Scenario: User search for a specific unit name
     And clicks the login button
     And user click menu management
     When user click unit menu
-    And user input field search name unit
+    And user input field search name unit "IT Support"
     And user click search unit button
     Then user verify input search unit name "IT Support"

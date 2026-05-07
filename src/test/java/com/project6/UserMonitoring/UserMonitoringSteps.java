@@ -1,6 +1,8 @@
 package com.project6.UserMonitoring;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
@@ -32,6 +34,7 @@ public class UserMonitoringSteps {
 
     @And("user click tambah menu monitoring")
     public void user_click_tambah_menu_monitoring() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
         userMonitoringPage.clickaddMonitorButton();
     }
 
@@ -40,21 +43,25 @@ public class UserMonitoringSteps {
     userMonitoringPage.inputFullName(fullName);
     }
 
-    @And("user input field search name monitoring")
-    public void user_input_field_search_name_monitoring() {
-        userMonitoringPage.inputSearchNameMonitoring("Izzah Luthfiah"); 
+    @And("user input field search name monitoring {string}")
+    public void user_input_field_search_name_monitoring(String searchQuery) {
+        userMonitoringPage.inputSearchNameMonitoring(searchQuery);
     }
 
     @And("user click search monitoring button")
     public void user_click_search_monitoring_button() {
-        userMonitoringPage.clickSearchButton();
+        userMonitoringPage.clickSearchMonitoring();
     }
 
-    @Then("user verify input search monitoring name {string}")
-    public void user_verify_input_search_monitoring_name(String name) {
-    String actualName = userMonitoringPage.getFirstResultName();
-    Assert.assertTrue(actualName.contains(name), "Nama tidak ditemukan! Harusnya: " + name);
-    }
+    @Then("user should see search monitoring result with name {string}")
+    public void user_should_see_search_monitoring_result_with_name(String expectedName) {
+        By resultLocator = By.xpath("//h6[contains(text(),'" + expectedName + "')]");
+        WebElement result = wait.until(
+            ExpectedConditions.visibilityOfElementLocated(resultLocator));
+        Assert.assertTrue(
+            result.isDisplayed(),
+            "Nama tidak ditemukan! Yang dicari: " + expectedName);
+        }
 
 
     @And("user input email {string}")

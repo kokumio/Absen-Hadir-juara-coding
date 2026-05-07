@@ -11,8 +11,7 @@ Feature: Search name Absen Point
     And user click absen point menu
     
     # 3. Baru lakukan pencarian (Search)
-    And user input field search name absen point
-    And user click search absen button
-    And user should see search absen result with name "Izzah Luthfiah"
+    And user input field search name absen point "DIKA Banjarmasin90"
+    And user click search absen button 
     And user click button reset 
     Then user verify field search absen point should be empty

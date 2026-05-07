@@ -45,11 +45,11 @@ public class UserSteps {
         userPage.clickUserMenu();  // reuse dari class User
         }
 
-            @And("user continue click titik tiga menu")
+        @And("user continue click titik tiga menu")
             public void user_click_titik_tiga_menu() {
-            // Hanya klik tombol titik tiga, jangan menunggu elemen Edit di sini
+        // Hanya klik tombol titik tiga, jangan menunggu elemen Edit di sini
             userPage.clickTitikMenu();
-            // Beri jeda singkat untuk memastikan animasi menu popup berjalan (opsional, bisa juga dihapus)
+        // Beri jeda singkat untuk memastikan animasi menu popup berjalan (opsional, bisa juga dihapus)
             try { Thread.sleep(500); } catch (InterruptedException e) {}
 }
 
@@ -104,12 +104,30 @@ public class UserSteps {
 
     @And("user click filter button")
     public void user_filter_button() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
         userPage.clickFilterButton();
     }
 
     @And("user click batal filter button")
-    public void user_click_batal_filter_button() {
-        userPage.clickBatalButtonFilterUser();
+    public void clickBatalButtonFilterUser() {
+    WebDriverWait wait =
+            new WebDriverWait(driver, Duration.ofSeconds(15));
+
+    By batalLocator =
+            By.xpath("//button[contains(.,'Batal')]");
+
+    WebElement batalButton = wait.until(
+            ExpectedConditions.presenceOfElementLocated(batalLocator));
+
+    ((JavascriptExecutor) driver)
+            .executeScript(
+                    "arguments[0].scrollIntoView({block:'center'});",
+                    batalButton);
+
+    wait.until(
+            ExpectedConditions.elementToBeClickable(batalButton));
+
+    batalButton.click();
     }
 
 

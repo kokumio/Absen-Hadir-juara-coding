@@ -11,6 +11,6 @@ Feature: Search name User monitoring
     And user click user monitoring menu
     
     # 3. Baru lakukan pencarian (Search)
-    And user input field search name monitoring
+    And user input field search name monitoring "Gatuso"
     And user click search monitoring button
-    Then user should see search monitoring result with name "Izzah Luthfiah"
+    Then user should see search monitoring result with name "Gatuso"

@@ -1,7 +1,8 @@
 package com.project6.pages;
 
+import java.time.Duration;
+
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,13 +10,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.aventstack.extentreports.util.Assert;
-
-import io.cucumber.java.en.Then;
-
-import org.openqa.selenium.interactions.Actions;
-import java.time.Duration;
 
 public class UserMonitoring {
     
@@ -28,10 +22,10 @@ public class UserMonitoring {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy(xpath = "(//p[contains(@class,'MuiTypography-root')])[10]")
+    @FindBy(xpath = "//p[contains(.,'User Monitoring')]")
     private WebElement userMonitoringMenu;
 
-    @FindBy(xpath = "//button[contains(.,'Tambah')]")
+    @FindBy(xpath = "//button[contains(@class,'button-add')]")
     private WebElement addMonitorButton;
     
     @FindBy(xpath = "//input[@name='fullname']")
@@ -46,20 +40,21 @@ public class UserMonitoring {
     @FindBy(xpath = "//input[@placeholder='Pilih Unit']")
     private WebElement fieldUnit;
 
-    @FindBy(xpath = "//button[normalize-space()='Tambah']")
+    @FindBy(xpath = "(//button[contains(@class,'MuiButtonBase-root')])[6]")
     private WebElement submitButton;
 
     @FindBy(xpath = "//input[@type='search']")
     private WebElement fieldSearchMonitoring;
 
-    @FindBy(xpath = "(//h6[contains(@class,'MuiTypography-root MuiTypography-h6')])[1]")
-    private WebElement txtSearchName2;
+    @FindBy(xpath = "(//h6[text()='Gatuso'])")
+    private WebElement hasilSearchMonitoring;
 
-    @FindBy(xpath =" (//button[contains(@class,'MuiButtonBase-root ')])[6]")
+    @FindBy(xpath ="(//button[contains(@class,'MuiButtonBase-root')])[6]")
     private WebElement searchMonitoringButtton;
 
-    @FindBy(xpath = "//button[contains(text(), 'Reset')]")
+    @FindBy(xpath = "//button[contains(text(), 'Reset')][1]")
     private WebElement resetButtonMonitoring;
+
 
     // ===== ACTIONS =====
 
@@ -71,15 +66,19 @@ public class UserMonitoring {
         wait.until(ExpectedConditions.elementToBeClickable(addMonitorButton)).click();
     }   
 
-    public void inputFullName(String name) {
-        wait.until(ExpectedConditions.visibilityOf(fieldFullName)).sendKeys(name);
+    public void inputFullName(String fullName) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(45));
+        wait.until(ExpectedConditions.visibilityOf(fieldFullName)).sendKeys(fullName);
     }
 
+
     public void inputEmail(String email) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(45));
         wait.until(ExpectedConditions.visibilityOf(fieldEmail)).sendKeys(email);
     }
 
     public void inputPassword(String password) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(45));
         wait.until(ExpectedConditions.visibilityOf(fieldPassword)).sendKeys(password);
     }
 
@@ -98,20 +97,14 @@ public class UserMonitoring {
         wait.until(ExpectedConditions.elementToBeClickable(submitButton)).click();
     }
 
-    public String getTxtSearchName() {
-        return wait.until(ExpectedConditions.visibilityOf(txtSearchName)).getText();
-    }
-
-    public void clickSearchButton() {
-        WebElement searchBtn = driver.findElement(By.xpath("//button[normalize-space()='Search']"));
-        wait.until(ExpectedConditions.elementToBeClickable(searchBtn)).click();
-    }
-
-    @FindBy(xpath = "(//h6[contains(@class,'MuiTypography-root MuiTypography-h6')])[1]")
-    private WebElement txtSearchName;
-    public String getFirstResultName() {
-        return wait.until(ExpectedConditions.visibilityOf(txtSearchName)).getText();
-    }
+    public void clickSearchMonitoring() {
+          try {
+                Thread.sleep(2000); 
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            wait.until(ExpectedConditions.elementToBeClickable(searchMonitoringButtton)).click();
+        }
 
     public void clickResetButtonMonitoring() {
         wait.until(ExpectedConditions.elementToBeClickable(resetButtonMonitoring)).click();   
@@ -122,12 +115,13 @@ public class UserMonitoring {
         fieldSearchMonitoring.sendKeys(searchQuery);
     }
 
-      public String getSearchFieldValueMonitoring() {
-    // Langsung ambil nilainya tanpa nunggu attribute value jadi ""
+    public String getSearchFieldValueMonitoring() {
     return fieldSearchMonitoring.getAttribute("value");
     }
 
-
-
+    public String getSearchResultText() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
+        return wait.until(ExpectedConditions.visibilityOf(hasilSearchMonitoring)).getText();
+    }
 }
 

@@ -24,15 +24,6 @@ public class SearchNameMon {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-
-    // ✅ validasi search (monitoring)
-    @Then("user should see search monitoring result with name {string}")
-    public void user_should_see_search_monitoring_result_with_name(String expectedName) {
-        String actualName = userMonitoringPage.getFirstResultName();
-        Assert.assertEquals(actualName, expectedName, "Nama yang ditampilkan tidak sesuai dengan yang dicari.");        
-    
-    }
-
     // ✅ reset search (monitoring)
     @And("user click button reset monitoring")
     public void user_click_button_reset_monitoring() {

@@ -56,7 +56,7 @@ public class User {
     @FindBy (xpath="(//button[contains(@class,'MuiButtonBase-root')])[6]")
     private WebElement filterButton;
 
-    @FindBy (xpath= "//button[contains(.,'Batal')] | //span[contains(.,'Batal')]/parent::button")
+    @FindBy (xpath= "//button[contains(.,'Batal')]")
     private WebElement batalButtonFilterUser;
 
     @FindBy(xpath = "//button[contains(.,'Reset')]")
@@ -88,7 +88,7 @@ public class User {
             By.xpath("(//button[contains(@class,'MuiIconButton-sizeLarge')])[5]")
         ));
 
-        // 2. Scroll ke elemen agar masuk ke viewport (membantu stabilitas)
+        // 2. Scroll ke elemen untuk memastikan tidak terhalang oleh elemen lain (seperti ikon panah)
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", btnTitik);
         
         // 3. Klik menggunakan JS karena sering terhalang ikon panah (chevron)
@@ -97,7 +97,7 @@ public class User {
         
         // 4. Tunggu sampai menu edit benar-benar muncul sebelum lanjut
         wait.until(ExpectedConditions.visibilityOf(editMenu));
-    }
+        }
 
     public void clickEditMenu() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -130,35 +130,10 @@ public class User {
         filterButton.click();
     }
 
-  public void clickBatalButtonFilterUser() {
-    try {
-        By locator = By.xpath("//button[contains(.,'Batal')] | //span[contains(.,'Batal')]/parent::button");
-
-        // 1. Tunggu element muncul
-        WebElement el = wait.until(ExpectedConditions.presenceOfElementLocated(locator));
-
-        // 2. Scroll ke tengah layar
-        ((JavascriptExecutor) driver).executeScript(
-            "arguments[0].scrollIntoView({block: 'center'});", el
-        );
-
-        // 3. Tunggu benar-benar clickable
-        wait.until(ExpectedConditions.elementToBeClickable(el));
-
-        // 4. Klik (pakai JS biar aman dari overlay)
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", el);
-
-        // 5. Tunggu hilang (modal ketutup)
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
-
-        System.out.println("Berhasil klik tombol Batal.");
-    } catch (Exception e) {
-        System.err.println("Gagal klik tombol Batal: " + e.getMessage());
-        throw e;
+    public void clickBatalButtonFilterUser() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        batalButtonFilterUser.click();
     }
-}
-
-    // Di dalam class User.java
     public void clickReset() {
     WebElement resetBtn = driver.findElement(By.xpath("//button[contains(.,'Reset')]"));
     ((JavascriptExecutor) driver).executeScript("arguments[0].click();", resetBtn);
